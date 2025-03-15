@@ -8,8 +8,8 @@
         Title="MainWindow" Height="720" Width="980">
     <Grid HorizontalAlignment="Center" Width="980" Margin="0,-14,0,-2" Height="720" RenderTransformOrigin="0.483,0.478" Background="#FF868686">
         <TextBlock HorizontalAlignment="Center" Height="49" Margin="0,67,0,0" TextWrapping="Wrap" Text="Return Items" VerticalAlignment="Top" Width="332" TextAlignment="Center" FontFamily="Arial Black" FontSize="35" Foreground="#FFFAF6F6"/>
-        <DataGrid x:Name="myDataGrid" HorizontalAlignment="Center" Height="396" 
-          VerticalAlignment="Center" Width="780" AutoGenerateColumns="False">
+        <DataGrid x:Name="myDataGrid" HorizontalAlignment="Center" Height="396"  
+  VerticalAlignment="Center" Width="780" AutoGenerateColumns="False">
             <DataGrid.Columns>
 
                 <DataGridTextColumn Header="ID" Binding="{Binding Borrowed_ID}" Width="50"/>
@@ -20,16 +20,20 @@
                 <DataGridTextColumn Header="Quantity" Binding="{Binding Borrowed_Quantity}" Width="60"/>
                 <DataGridTextColumn Header="Low Indicator" Binding="{Binding Item_Low_Indicator}" Width="90"/>
                 <DataGridTextColumn Header="Category ID" Binding="{Binding Category_ID}" Width="80"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Borrow_Transaction_Date}" Width="60"/>
-                <DataGridTextColumn Header="Activity ID" Binding="{Binding Activity_ID}" Width="70"/>
-
-                <DataGridTemplateColumn Header=" " Width="70">
+                <DataGridTextColumn Header="Date" Binding="{Binding Borrow_Transaction_Date}" Width="50"/>
+                <DataGridTextColumn Header="Activity ID" Binding="{Binding Activity_ID}" Width="65"/>
+                
+                <DataGridTemplateColumn Header=" " Width="90">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Return" FontSize="14" Click="Button_Click"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="Return" FontSize="11" Margin="2" Click="ReturnButton_Click"/>
+                                <Button Content="Report" FontSize="11" Margin="2" Click="ReportButton_Click"/>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 

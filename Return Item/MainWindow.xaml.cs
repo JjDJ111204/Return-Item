@@ -39,7 +39,7 @@ namespace Return_Item
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.DataContext is DataRowView row)
             {
@@ -76,7 +76,6 @@ namespace Return_Item
                             cmd.ExecuteNonQuery();
                         }
 
-                        // 🔹 3️⃣ Commit Transaction
                         transaction.Commit();
                         MessageBox.Show("Item returned successfully!");
 
@@ -88,6 +87,40 @@ namespace Return_Item
                         transaction.Rollback();
                         MessageBox.Show("Error: " + ex.Message);
                     }
+                }
+            }
+        }
+        private void ReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is DataRowView row)
+            {
+                int itemID = Convert.ToInt32(row["Item_ID"]);  // Extract Item_ID from the row
+                int borrowedQuantity = Convert.ToInt32(row["Borrowed_Quantity"]);  // Extract BorrowedQuantity from the row
+
+                // Pass itemID and borrowedQuantity to ReportWindow
+                ReportWindow reportWindow = new ReportWindow(itemID, borrowedQuantity);
+                // Subscribe to the event to refresh DataGrid after reporting
+                reportWindow.ReportSubmitted += RefreshDataGrid;
+
+                reportWindow.ShowDialog(); // Open the window
+            }
+        }
+        private void RefreshDataGrid()
+        {
+            string connectionString = "Data Source=MSI\\SQLEXPRESS;Initial Catalog=AvailableItems;Integrated Security=True;Encrypt=False;TrustServerCertificate=True";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT * FROM BorrowedItems"; // Adjust this query as needed
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    myDataGrid.ItemsSource = dt.DefaultView; // Assuming this is your DataGrid name
                 }
             }
         }
